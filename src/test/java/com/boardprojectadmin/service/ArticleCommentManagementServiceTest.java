@@ -163,19 +163,17 @@ class ArticleCommentManagementServiceTest {
                 null,
                 content,
                 LocalDateTime.now(),
-                "Uno",
+                "KKM",
                 LocalDateTime.now(),
-                "Uno"
+                "KKM"
         );
     }
 
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
-                "unoTest",
-                "pw",
-                Set.of(RoleType.ADMIN),
-                "uno-test@email.com",
-                "uno-test",
+                "kkmTest",
+                "kkm-test@email.com",
+                "kkm-test",
                 "test memo"
         );
     }
