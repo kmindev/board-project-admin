@@ -1,7 +1,7 @@
 package com.boardprojectadmin.dto.security;
 
 import com.boardprojectadmin.domain.constant.RoleType;
-import com.boardprojectadmin.dto.UserAccountDto;
+import com.boardprojectadmin.dto.AdminAccountDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,19 +41,19 @@ public record BoardAdminPrincipal(
         );
     }
 
-    public static BoardAdminPrincipal from(UserAccountDto dto) {
+    public static BoardAdminPrincipal from(AdminAccountDto dto) {
         return BoardAdminPrincipal.of(
                 dto.userId(),
                 dto.userPassword(),
-                dto.roleType(),
+                dto.roleTypes(),
                 dto.email(),
                 dto.nickname(),
                 dto.memo()
         );
     }
 
-    public UserAccountDto toDto() {
-        return UserAccountDto.of(
+    public AdminAccountDto toDto() {
+        return AdminAccountDto.of(
                 username,
                 password,
                 authorities.stream()
