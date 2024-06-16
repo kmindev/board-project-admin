@@ -1,6 +1,5 @@
 package com.boardprojectadmin.service;
 
-import com.boardprojectadmin.domain.constant.RoleType;
 import com.boardprojectadmin.dto.ArticleDto;
 import com.boardprojectadmin.dto.UserAccountDto;
 import com.boardprojectadmin.dto.properties.ProjectProperties;
@@ -23,7 +22,6 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -116,7 +114,7 @@ class ArticleManagementServiceTest {
             Long articleId = 1L;
             ArticleDto expectedArticle = createArticleDto("게시판", "글");
             server
-                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
+                    .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId + "?projection=withUserAccount"))
                     .andRespond(withSuccess(
                             mapper.writeValueAsString(expectedArticle),
                             MediaType.APPLICATION_JSON
@@ -167,11 +165,9 @@ class ArticleManagementServiceTest {
 
         private UserAccountDto createUserAccountDto() {
             return UserAccountDto.of(
-                    "unoTest",
-                    "pw",
-                    Set.of(RoleType.ADMIN),
-                    "uno-test@email.com",
-                    "uno-test",
+                    "kkmTest",
+                    "kkm-test@email.com",
+                    "kkm-test",
                     "test memo"
             );
         }

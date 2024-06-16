@@ -1,7 +1,6 @@
 package com.boardprojectadmin.controller;
 
-import com.boardprojectadmin.config.SecurityConfig;
-import com.boardprojectadmin.domain.constant.RoleType;
+import com.boardprojectadmin.config.TestSecurityConfig;
 import com.boardprojectadmin.dto.ArticleDto;
 import com.boardprojectadmin.dto.UserAccountDto;
 import com.boardprojectadmin.service.ArticleManagementService;
@@ -12,11 +11,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -25,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("View 컨트롤러 - 게시글 관리")
-@Import(SecurityConfig.class)
+@Import(TestSecurityConfig.class)
 @WebMvcTest(ArticleManagementController.class)
 class ArticleManagementControllerTest {
 
@@ -37,6 +36,7 @@ class ArticleManagementControllerTest {
         this.mvc = mvc;
     }
 
+    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[view][GET] 게시글 관리 페이지 - 정상 호출")
     @Test
     void givenNothing_whenRequestingArticleManagementView_thenReturnsArticleManagementView() throws Exception {
@@ -52,6 +52,7 @@ class ArticleManagementControllerTest {
         then(articleManagementService).should().getArticles();
     }
 
+    @WithMockUser(username = "tester", roles = "USER")
     @DisplayName("[data][GET] 게시글 1개 - 정상 호출")
     @Test
     void givenArticleId_whenRequestingArticle_thenReturnsArticle() throws Exception {
@@ -71,6 +72,7 @@ class ArticleManagementControllerTest {
         then(articleManagementService).should().getArticle(articleId);
     }
 
+    @WithMockUser(username = "tester", roles = "MANAGER")
     @DisplayName("[view][POST] 게시글 삭제 - 정상 호출")
     @Test
     void givenArticleId_whenRequestingDeletion_thenRedirectsToArticleManagementView() throws Exception {
@@ -98,19 +100,17 @@ class ArticleManagementControllerTest {
                 content,
                 null,
                 LocalDateTime.now(),
-                "Uno",
+                "KKM",
                 LocalDateTime.now(),
-                "Uno"
+                "KKM"
         );
     }
 
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
-                "unoTest",
-                "pw",
-                Set.of(RoleType.ADMIN),
-                "uno-test@email.com",
-                "uno-test",
+                "kkmTest",
+                "kkm-test@email.com",
+                "kkm-test",
                 "test memo"
         );
     }
